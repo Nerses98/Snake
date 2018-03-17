@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Snake_Game
 {
@@ -60,13 +61,13 @@ namespace Snake_Game
             }
             else
             {
-                if (Input.KeyPressed(Keys.Right) && Settings.direction != Direction.Left)
+                if (Input.KeyPressed(Keys.Right) && !Input.KeyPressed(Keys.Up) && Settings.direction != Direction.Left)
                     Settings.direction = Direction.Right;
-                if (Input.KeyPressed(Keys.Left) && Settings.direction != Direction.Right)
-                    Settings.direction = Direction.Left;
-                if (Input.KeyPressed(Keys.Up) && Settings.direction != Direction.Down)
+                if (Input.KeyPressed(Keys.Left) && !Input.KeyPressed(Keys.Down) && Settings.direction != Direction.Right)
+                    Settings.direction = Direction.Left;     
+                if (Input.KeyPressed(Keys.Up) && !Input.KeyPressed(Keys.Left) && Settings.direction != Direction.Down)
                     Settings.direction = Direction.Up;
-                if (Input.KeyPressed(Keys.Down) && Settings.direction != Direction.Up)
+                if (Input.KeyPressed(Keys.Down) && !Input.KeyPressed(Keys.Right) && Settings.direction != Direction.Up)
                     Settings.direction = Direction.Down;
                 MovePlayer();
             }
@@ -104,7 +105,7 @@ namespace Snake_Game
                     {
                         if (Snake[i].X < 0 || Snake[i].X >= pbCanvas.Width / Settings.Width || Snake[i].Y < 0 || Snake[i].Y >= pbCanvas.Height / Settings.Height)
                             Die();
-                    }
+                    }   
                     //Detect collision with body
                     for (int j = 1; j < Snake.Count; j++)
                     {
@@ -214,6 +215,11 @@ namespace Snake_Game
             button2.Visible = false;
             button3.Visible = false;
             button4.Visible = false;
+            button1.Enabled = false;
+            button2.Enabled = false;
+            button3.Enabled = false;
+            button4.Enabled = false;
+
             this.Focus();
             StartGame();
 
